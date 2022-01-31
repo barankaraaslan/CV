@@ -1,2 +1,2 @@
 all:
-	pdflates cv.tex  -interaction=nonstopmode
+	pdflatex -interaction=nonstopmode cv.tex  
