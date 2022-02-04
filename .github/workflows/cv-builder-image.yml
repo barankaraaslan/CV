@@ -14,4 +14,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file cv-builder/Dockerfile --tag cv-builder:$(date +%s)
+      run: docker build . --file cv-builder/Dockerfile --tag cv-builder:${{ env.GITHUB_SHA }}
+    - name: Push to ECR
+      id: ecr
+      uses: jwalton/gh-ecr-push@v1
+      with:
+        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: us-east-1
+        local-image: cv-builder:${{ env.GITHUB_SHA }}
+        image: cv-builder:${{ env.GITHUB_SHA }}, my-image:latest
