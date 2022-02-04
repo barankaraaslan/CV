@@ -22,5 +22,5 @@ jobs:
         access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: us-east-1
-        local-image: cv-builder:${{ env.GITHUB_SHA }}
+        local-image: cv-builder
         image: cv-builder, cv-builder:latest
