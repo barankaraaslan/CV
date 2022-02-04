@@ -1,0 +1,17 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths: cv-builder/Dockerfile
+  pull_request:
+    branches: [ main ]
+    paths: cv-builder/Dockerfile
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file cv-builder/Dockerfile --tag cv-builder:$(date +%s)
