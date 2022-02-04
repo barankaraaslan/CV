@@ -2,10 +2,6 @@ name: Docker Image CI
 
 on:
   workflow_dispatch:
-    inputs:
-      GITHUB_SHA:
-        required: true
-        type: text
   push:
     branches: [ main ]
     paths: cv-builder/Dockerfile
@@ -18,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file cv-builder/Dockerfile --tag cv-builder:${{ env.GITHUB_SHA }}
+      run: docker build . --file cv-builder/Dockerfile --tag cv-builder
     - name: Push to ECR
       id: ecr
       uses: jwalton/gh-ecr-push@v1
@@ -27,4 +23,4 @@ jobs:
         secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: us-east-1
         local-image: cv-builder:${{ env.GITHUB_SHA }}
-        image: cv-builder:${{ env.GITHUB_SHA }}, my-image:latest
+        image: cv-builder, cv-builder:latest
