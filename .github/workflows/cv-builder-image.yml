@@ -2,6 +2,10 @@ name: Docker Image CI
 
 on:
   workflow_dispatch:
+    inputs:
+      GITHUB_SHA:
+        required: true
+        type: text
   push:
     branches: [ main ]
     paths: cv-builder/Dockerfile
