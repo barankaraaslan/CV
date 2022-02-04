@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file cv-builder/Dockerfile --tag cv-builder
+      run: cd cv-builder && docker build . --tag cv-builder
     - name: Push to ECR
       id: ecr
       uses: jwalton/gh-ecr-push@v1
