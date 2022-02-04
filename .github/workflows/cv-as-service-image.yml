@@ -1,0 +1,36 @@
+name: cv-as-service image build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths-ignore: cv-builder/Dockerfile
+  pull_request:
+    branches: [ main ]
+    paths-ignore: cv-builder/Dockerfile
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Pull cv-builder from ECR
+      id: pull-cv-builder
+      uses: jwalton/gh-ecr-push@v1
+      with:
+        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: us-east-1
+        image: cv-builder:latest
+        local-image: cv-builder
+        direction: pull
+    - name: Build the Docker image
+      run: docker build . --tag cv-as-service
+    - name: Push to ECR
+      id: push
+      uses: jwalton/gh-ecr-push@v1
+      with:
+        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: us-east-1
+        local-image: cv-as-service
+        image: cv-as-service, cv-as-service:latest
