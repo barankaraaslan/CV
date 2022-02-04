@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set env
+      run: echo COMMIT_HASH=`git rev-parse --short HEAD` >> $GITHUB_ENV
+    - name: use env
+      run: echo "${{ env.COMMIT_HASH }}"
