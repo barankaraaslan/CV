@@ -1,6 +1,10 @@
 name: cv-as-service image build
 
 on:
+  workflow_run:
+    workflows: [ cv-as-service image build ] 
+    types: 
+      - completed
   workflow_dispatch:
   push:
     branches: [ main ]
