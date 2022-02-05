@@ -5,3 +5,4 @@ texput.log
 node_modules/
 .terraform/
 *.tfstate.backup
+.vscode/
