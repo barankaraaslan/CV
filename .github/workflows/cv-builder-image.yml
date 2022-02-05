@@ -28,6 +28,6 @@ jobs:
       run: |
         cd cv-builder/
         aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws  
-        docker build -t cv-builder:${{ github.sha }} .
-        docker tag cv-builder:${{ github.sha }} public.ecr.aws/g6k1i6y8/cv-builder:${{ github.sha }}
-        docker push public.ecr.aws/g6k1i6y8/cv-builder:${{ github.sha }}
+        docker build -t cv-builder:latest .
+        docker tag cv-builder:latest public.ecr.aws/g6k1i6y8/cv-builder:latest
+        docker push public.ecr.aws/g6k1i6y8/cv-builder:latest
