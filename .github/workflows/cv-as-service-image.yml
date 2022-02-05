@@ -24,6 +24,7 @@ jobs:
     - name: Login to ECR, Build, tag and push 
       run: |
         aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws  
+        docker pull public.ecr.aws/g6k1i6y8/cv-builder:latest
         docker build -t cv-as-service:latest .
         docker tag cv-as-service:latest public.ecr.aws/g6k1i6y8/cv-as-service:latest
         docker push public.ecr.aws/g6k1i6y8/cv-as-service:latest
