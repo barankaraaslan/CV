@@ -9,8 +9,11 @@ on:
     branches: [ main ]
     paths: 
       - '**'
+      - '!main.tf'
       - '!cv-builder/*' 
       - '!.github/workflows/cv-builder-image.yml'
+    paths-ignore:
+      - '.gitignore'
 jobs:
   build:
     runs-on: ubuntu-latest
