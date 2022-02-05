@@ -7,8 +7,10 @@ on:
       - completed
   push:
     branches: [ main ]
-    paths-ignore: cv-builder/Dockerfile .github/workflows/cv-builder-image.yml
-jobs:
+    paths: 
+      - '**'
+      - '!cv-builder/*' 
+      - '!.github/workflows/cv-builder-image.yml'
   build:
     runs-on: ubuntu-latest
     steps:
