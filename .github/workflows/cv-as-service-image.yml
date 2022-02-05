@@ -5,7 +5,6 @@ on:
     workflows: [ cv-builder image build ] 
     types: 
       - completed
-  workflow_dispatch:
   push:
     branches: [ main ]
     paths-ignore: cv-builder/Dockerfile .github/workflows/cv-builder-image.yml
@@ -17,24 +16,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Pull cv-builder from ECR
-      id: pull-cv-builder
-      uses: jwalton/gh-ecr-push@v1
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: us-east-1
-        image: cv-builder:latest
-        local-image: cv-builder
-        direction: pull
-    - name: Build the Docker image
-      run: docker build . --tag cv-as-service
-    - name: Push to ECR
-      id: push
-      uses: jwalton/gh-ecr-push@v1
-      with:
-        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: us-east-1
-        local-image: cv-as-service
-        image: cv-as-service, cv-as-service:latest
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Login to ECR, Build, tag and push 
+      run: |
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws  
+        docker build -t cv-as-service:latest .
+        docker tag cv-as-service:latest public.ecr.aws/g6k1i6y8/cv-as-service:latest
+        docker push public.ecr.aws/g6k1i6y8/cv-as-service:latest
