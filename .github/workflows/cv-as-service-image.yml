@@ -11,6 +11,7 @@ on:
       - '**'
       - '!cv-builder/*' 
       - '!.github/workflows/cv-builder-image.yml'
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
