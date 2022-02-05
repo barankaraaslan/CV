@@ -1,4 +1,4 @@
-FROM cv-builder
+FROM public.ecr.aws/g6k1i6y8/cv-builder
 COPY cv.tex .
 RUN pdflatex -interaction=nonstopmode cv.tex || true
 
