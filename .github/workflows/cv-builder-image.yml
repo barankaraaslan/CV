@@ -1,6 +1,7 @@
 name: cv-builder image build
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths: 
