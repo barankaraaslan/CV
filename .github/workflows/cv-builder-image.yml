@@ -4,10 +4,14 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-    paths: cv-builder/* .github/workflows/cv-builder-image.yml
+    paths: 
+      - 'cv-builder/*' 
+      - '.github/workflows/cv-builder-image.yml'
   pull_request:
     branches: [ main ]
-    paths: cv-builder/* .github/workflows/cv-builder-image.yml
+    paths:
+      - 'cv-builder/*' 
+      - '.github/workflows/cv-builder-image.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
