@@ -68,7 +68,6 @@ resource "aws_ecs_task_definition" "cv-as-service" {
 resource "aws_default_vpc" "default" {
 }
 
-
 data "aws_subnet_ids" "default" {
   vpc_id = aws_default_vpc.default.id
 }
@@ -79,8 +78,12 @@ resource "aws_ecs_service" "cv-as-service" {
   task_definition = aws_ecs_task_definition.cv-as-service.arn
   desired_count   = 1
   launch_type     = "FARGATE"
+  force_new_deployment = true
+  deployment_minimum_healthy_percent = 0
+  deployment_maximum_percent = 100
   network_configuration {
     subnets = data.aws_subnet_ids.default.ids
-    assign_public_ip = "true"
+    security_groups = ["sg-0c118a24cbdc6054d"]
+    assign_public_ip = true
   }
 }
