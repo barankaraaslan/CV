@@ -10,3 +10,4 @@ I have created github workflows that will build the images. I have seperated the
 
 One of the container images in this takes a long time to build. Because of this, i needed to use a image registery. Since i also decided to host my server container in AWS ECS, i decided to use ECR to have more control over the infrastructure by using same provider. This can ease setting up a IaaC solution. 
 
+This repository also contains a terraform recipe for aws services used.
