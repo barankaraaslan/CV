@@ -33,6 +33,7 @@ jobs:
       env:
         IMAGE_TAG: ${{ github.sha }}
       run: |
+        cd cv-builder/
         docker build -t cv-builder:$IMAGE_TAG .
         docket tag cv-builder:$IMAGE_TAG public.ecr.aws/g6k1i6y8/cv-builder
         docker push public.ecr.aws/g6k1i6y8/cv-builder:$IMAGE_TAG
