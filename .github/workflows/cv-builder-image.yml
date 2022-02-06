@@ -4,23 +4,34 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-    paths: cv-builder/Dockerfile
+    paths: cv-builder/Dockerfile .github/workflows/cv-builder-image.yml
   pull_request:
     branches: [ main ]
-    paths: cv-builder/Dockerfile
+    paths: cv-builder/Dockerfile .github/workflows/cv-builder-image.yml
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: cd cv-builder && docker build . --tag cv-builder
-    - name: Push to ECR
-      id: ecr
-      uses: jwalton/gh-ecr-push@v1
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: us-east-1
-        local-image: cv-builder
-        image: cv-builder, cv-builder:latest
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: cv-builder
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        cd cv-buider/
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
