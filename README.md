@@ -8,6 +8,6 @@ I have decided to chose Github Actions as CI/CD provider, since i can use it wit
 
 I have created github workflows that will build the images. I have seperated their file triggers, so only the image that needs to be rebuild will be rebuild on changes.
 
-One of the container images in this takes a long time to build. Because of this, i needed to use a image registery. Since i also decided to host my server container in AWS ECS, i decided to use ECR to have more control over the infrastructure by using same provider. This can ease setting up a IaaC solution. 
+Latex image takes a long time to build. Because of this, i wanted to use a image registery. Since i also decided to host my server container in AWS ECS, i decided to use ECR to have easier time configuring the infrastructure by using same provider. This can ease setting up a IaaC solution. 
 
 This repository also contains a terraform recipe for aws services used.
