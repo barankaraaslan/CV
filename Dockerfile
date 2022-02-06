@@ -8,5 +8,5 @@ COPY package*.json ./
 RUN npm install
 COPY --from=0 /cv.pdf ./
 COPY . .
-EXPOSE 3000
+EXPOSE 80
 CMD [ "node", "server.js" ]
