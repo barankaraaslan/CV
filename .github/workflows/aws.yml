@@ -30,11 +30,5 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: .aws/taskdef.json
-        service: cv-as-service
-        cluster: cv-as-service-iaac
-        wait-for-service-stability: true
-        force-new-deployment: true
+    - name: deploy
+      run: aws ecs update-service --service cv-as-service --cluster cv-as-service-iaac --force-new-deployment
