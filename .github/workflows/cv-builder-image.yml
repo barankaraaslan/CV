@@ -26,13 +26,13 @@ jobs:
 
     - name: Login to Amazon ECR
       id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+      run: |
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
 
-    - name: Build, tag, and push image to Amazon ECR
+    - name: 
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: cv-builder
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t cv-builder:$IMAGE_TAG .
+        docket tag cv-builder:$IMAGE_TAG public.ecr.aws/g6k1i6y8/cv-builder
+        docker push public.ecr.aws/g6k1i6y8/cv-builder:$IMAGE_TAG
