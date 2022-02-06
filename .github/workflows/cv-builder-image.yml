@@ -24,16 +24,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-
     - name: 
       env:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         cd cv-builder/
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
         docker build -t cv-builder:$IMAGE_TAG .
         docker tag cv-builder:$IMAGE_TAG public.ecr.aws/g6k1i6y8/cv-builder:$IMAGE_TAG
         docker push cv-builder:$IMAGE_TAG
