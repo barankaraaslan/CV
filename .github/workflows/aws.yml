@@ -34,7 +34,7 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: .aws/tsskdef.json
+        task-definition: .aws/taskdef.json
         container-name: cv-as-service
         image: public.ecr.aws/g6k1i6y8/cv-as-service:latest
 
