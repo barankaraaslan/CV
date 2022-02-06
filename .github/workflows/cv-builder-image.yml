@@ -33,7 +33,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: cv-builder
+        ECR_REPOSITORY: public.ecr.aws/g6k1i6y8/cv-builder
         IMAGE_TAG: ${{ github.sha }}
       run: |
         cd cv-builder/
