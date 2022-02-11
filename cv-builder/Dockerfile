@@ -5,3 +5,4 @@ RUN pacman -Syu --noconfirm base-devel git
 
 COPY install.sh .
 RUN bash install.sh
+ 
